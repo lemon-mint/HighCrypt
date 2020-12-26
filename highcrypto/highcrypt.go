@@ -109,13 +109,15 @@ func EncryptCBCArray(src, key, dst []byte) {
 }
 
 //DecryptCBCArray Unpad and Decrypt len(dst) == len(src)-16
-func DecryptCBCArray(src, key, dst []byte) {
+func DecryptCBCArray(src, key []byte) []byte {
 	block := NewHighCrypto(key)
-	unpadData := ISO10126UnPad(src[16:])
 	iv := make([]byte, 16)
 	copy(iv, src[:16])
+	tmp := make([]byte, len(src)-16)
 	encrypter := cipher.NewCBCDecrypter(block, iv)
-	encrypter.CryptBlocks(dst, unpadData)
+	encrypter.CryptBlocks(tmp, src[16:])
+	dst := ISO10126UnPad(tmp)
+	return dst
 }
 
 //ISO10126Pad padding
