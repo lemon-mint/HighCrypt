@@ -27,7 +27,7 @@ func TestDecryptCBCArray(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := DecryptCBCArray(tt.args.src, tt.args.key); !bytes.Equal(got, tt.want) {
+			if got := DecryptCBCArrayV1(tt.args.src, tt.args.key); !bytes.Equal(got, tt.want) {
 				t.Errorf("DecryptCBCArray() = %v, want %v", got, tt.want)
 			}
 		})
