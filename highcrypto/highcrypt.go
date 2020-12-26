@@ -74,8 +74,8 @@ func (c HighCrypto) Decrypt(dst, src []byte) {
 //BlockSize 16
 func (c HighCrypto) BlockSize() int { return 16 }
 
-//NewHighCrypto make crypto
-func NewHighCrypto(key []byte) cipher.Block {
+//NewHighCryptoV1 make crypto
+func NewHighCryptoV1(key []byte) cipher.Block {
 	if (len(key)*8)%16 != 0 {
 		panic("Key size Error")
 	}
@@ -99,7 +99,7 @@ func NewHighCrypto(key []byte) cipher.Block {
 
 //EncryptCBCArray Pad and Encrypt len(dst) == (len(src)/16+1)*16
 func EncryptCBCArray(src, key, dst []byte) {
-	block := NewHighCrypto(key)
+	block := NewHighCryptoV1(key)
 	iv := make([]byte, 16)
 	rand.Read(iv)
 	encrypter := cipher.NewCBCEncrypter(block, iv)
@@ -110,7 +110,7 @@ func EncryptCBCArray(src, key, dst []byte) {
 
 //DecryptCBCArray Unpad and Decrypt len(dst) == len(src)-16
 func DecryptCBCArray(src, key []byte) []byte {
-	block := NewHighCrypto(key)
+	block := NewHighCryptoV1(key)
 	iv := make([]byte, 16)
 	copy(iv, src[:16])
 	tmp := make([]byte, len(src)-16)
