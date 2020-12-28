@@ -9,14 +9,14 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-//V1 Secure Crypto Chain
-type V1 struct {
+//v1 Secure Crypto Chain
+type v1 struct {
 	aes  cipher.Block
 	pre1 []byte
 }
 
 //Encrypt block
-func (c V1) Encrypt(dst, src []byte) {
+func (c v1) Encrypt(dst, src []byte) {
 	clear := make([]byte, 16, 16)
 	tmp := make([]byte, 16, 16)
 	tmp[0] = c.pre1[0] ^ src[0]
@@ -44,7 +44,7 @@ func (c V1) Encrypt(dst, src []byte) {
 }
 
 //Decrypt block
-func (c V1) Decrypt(dst, src []byte) {
+func (c v1) Decrypt(dst, src []byte) {
 	clear := make([]byte, 16, 16)
 	tmp := make([]byte, 16, 16)
 	c.aes.Decrypt(dst, src)
@@ -73,14 +73,14 @@ func (c V1) Decrypt(dst, src []byte) {
 }
 
 //BlockSize 16
-func (c V1) BlockSize() int { return 16 }
+func (c v1) BlockSize() int { return 16 }
 
 //NewHighCryptoV1 make crypto
 func NewHighCryptoV1(key []byte) cipher.Block {
 	if (len(key)*8)%16 != 0 {
 		log.Fatalln("Key size Error")
 	}
-	cryptoChain := V1{}
+	cryptoChain := v1{}
 
 	Hash3 := sha3.Sum256(key)
 	Hash3 = sha3.Sum256(Hash3[:])

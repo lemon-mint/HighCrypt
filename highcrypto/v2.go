@@ -9,14 +9,14 @@ import (
 	"github.com/lemon-mint/LEA/golea"
 )
 
-//V2 Secure Crypto Chain
-type V2 struct {
+//v2 Secure Crypto Chain
+type v2 struct {
 	aes cipher.Block
 	lea cipher.Block
 }
 
 //Encrypt block
-func (c V2) Encrypt(dst, src []byte) {
+func (c v2) Encrypt(dst, src []byte) {
 	clear := make([]byte, 16, 16)
 	tmp := make([]byte, 16, 16)
 	copy(tmp, src)
@@ -31,7 +31,7 @@ func (c V2) Encrypt(dst, src []byte) {
 }
 
 //Decrypt block
-func (c V2) Decrypt(dst, src []byte) {
+func (c v2) Decrypt(dst, src []byte) {
 	clear := make([]byte, 16, 16)
 	tmp := make([]byte, 16, 16)
 	c.aes.Decrypt(dst, src)
@@ -45,14 +45,14 @@ func (c V2) Decrypt(dst, src []byte) {
 }
 
 //BlockSize 16
-func (c V2) BlockSize() int { return 16 }
+func (c v2) BlockSize() int { return 16 }
 
 //NewHighCryptoV2 make crypto
 func NewHighCryptoV2(key []byte) cipher.Block {
 	if (len(key)*8)%16 != 0 {
 		log.Fatalln("Key size Error")
 	}
-	cryptoChain := V2{}
+	cryptoChain := v2{}
 
 	cryptoChain.aes, _ = aes.NewCipher(key)
 	cryptoChain.lea, _ = golea.NewCipher(key)
