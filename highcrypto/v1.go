@@ -3,6 +3,7 @@ package highcrypto
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"log"
 	"math/rand"
 
 	"golang.org/x/crypto/sha3"
@@ -77,7 +78,7 @@ func (c V1) BlockSize() int { return 16 }
 //NewHighCryptoV1 make crypto
 func NewHighCryptoV1(key []byte) cipher.Block {
 	if (len(key)*8)%16 != 0 {
-		panic("Key size Error")
+		log.Fatalln("Key size Error")
 	}
 	cryptoChain := V1{}
 
