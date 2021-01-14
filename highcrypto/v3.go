@@ -75,13 +75,13 @@ func EncryptCBCArrayV3(src, key, dst []byte) {
 }
 
 //DecryptCBCArrayV3 Unpad and Decrypt len(dst) == len(src)-16
-func DecryptCBCArrayV3(src, key []byte) []byte {
+func DecryptCBCArrayV3(src, key []byte) ([]byte, error) {
 	block := NewHighCryptoV3(key)
 	iv := make([]byte, 16)
 	copy(iv, src[:16])
 	tmp := make([]byte, len(src)-16)
 	encrypter := cipher.NewCBCDecrypter(block, iv)
 	encrypter.CryptBlocks(tmp, src[16:])
-	dst := ISO10126UnPad(tmp)
-	return dst
+	dst, err := ISO10126UnPadWithError(tmp)
+	return dst, err
 }

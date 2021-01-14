@@ -1,6 +1,7 @@
 package highcrypto
 
 import (
+	"errors"
 	"math/rand"
 )
 
@@ -22,4 +23,15 @@ func ISO10126Pad(src []byte) []byte {
 func ISO10126UnPad(src []byte) []byte {
 	padlen := src[len(src)-1]
 	return src[:len(src)-int(padlen)]
+}
+
+//ISO10126UnPadWithError un padding
+func ISO10126UnPadWithError(src []byte) ([]byte, error) {
+	padlen := src[len(src)-1]
+	if int(padlen) < len(src) {
+		if int(padlen) <= 16 {
+			return src[:len(src)-int(padlen)], nil
+		}
+	}
+	return nil, errors.New("Wrong padding")
 }
