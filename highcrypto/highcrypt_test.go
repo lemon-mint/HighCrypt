@@ -134,8 +134,8 @@ func TestDecryptCBCArrayv3(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got, err := DecryptCBCArrayV3(tt.args.src, tt.args.key); !bytes.Equal(got, tt.want) || err != nil {
-				t.Errorf("DecryptCBCArrayV2() = %v, want %v", got, tt.want)
+			if got, _ := DecryptCBCArrayV3(tt.args.src, tt.args.key); !bytes.Equal(got, tt.want) {
+				t.Errorf("DecryptCBCArrayV#() = %v, want %v", got, tt.want)
 			}
 		})
 	}
