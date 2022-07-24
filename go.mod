@@ -4,5 +4,5 @@ go 1.15
 
 require (
 	github.com/lemon-mint/LEA v1.1.1
-	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
+	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
 )
